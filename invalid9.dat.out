@@ -1,1 +1,1 @@
-InvalidFileFormatException: First line should contain two numeric values.
+InvalidFileFormatException: On the first line should be 2 integers, # rows and # columns

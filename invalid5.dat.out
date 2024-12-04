@@ -1,1 +1,1 @@
-InvalidFileFormatException: This file contains invalid characters.
+InvalidFileFormatException: The matrix should only contain [O,X] and one each of [1,2]
