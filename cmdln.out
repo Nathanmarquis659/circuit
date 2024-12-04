@@ -1,0 +1,8 @@
+Usage: java CircuitTracer [-s | -q] [-c | -g] <input_file>
+Options:
+  -s  Use a stack for storage
+  -q  Use a queue for storage
+  -c  Run program in console mode
+  -g  Run program in GUI mode (extra-credit--see below for details)
+  input_file  Name of the input file
+

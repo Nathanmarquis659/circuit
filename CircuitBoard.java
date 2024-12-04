@@ -1,6 +1,7 @@
 import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -44,15 +45,94 @@ public class CircuitBoard {
 	 */
 	public CircuitBoard(String filename) throws FileNotFoundException {
 		Scanner fileScan = new Scanner(new File(filename));
+		String firstLine = fileScan.nextLine();
+		int numRows = 0;
+		int numCols = 0;
+		int numOnes = 0;
+		int numTwos = 0;
 		
-		//TODO: parse the given file to populate the char[][]
 		// throw FileNotFoundException if Scanner cannot read the file
 		// throw InvalidFileFormatException if any issues are encountered while parsing the file
-		
-		ROWS = 0; //replace with initialization statements using values from file
-		COLS = 0;
-		
+		//TODO: parse the given file to populate the char[][]
+		// CHECKING FOR VALID FIRST LINE INPUT //
+		String[] parts = firstLine.split("\\s+"); // Split by whitespace
+		if (parts.length != 2) {
+			throw new InvalidFileFormatException("First line should contain two numeric values.");
+		}
+
+		try {
+			numRows = Integer.parseInt(parts[0]);
+			numCols = Integer.parseInt(parts[1]);
+
+		} catch (NumberFormatException e) {
+			throw new InvalidFileFormatException("First line should contain two numeric values.");
+		}
+
+		// SCAN IN BOARD VALUES INTO 2D ARRAY // 
+		board = new char[numRows][numCols];
+
+		try {
+			for (int i = 0; i < numRows; i++) {
+				for (int j = 0; j < numCols; j++) {
+					
+					board[i][j] = fileScan.next().charAt(0);
+
+					if (board[i][j] != 'O' && board[i][j] != 'X' && board[i][j] != '1' && board[i][j] != '2') {
+						throw new InvalidFileFormatException("This file contains invalid characters.");
+					} 
+					if (board[i][j] == '1') { // Set starting point
+						startingPoint = new Point(i, j);
+						numOnes++;
+					}
+					if (board[i][j] == '2') { // Set ending point
+						endingPoint = new Point(i, j);
+						numTwos++;
+					}
+					
+				}
+			}
+			} catch (NoSuchElementException e) {
+			throw new InvalidFileFormatException("This file has an empty space in comparison to the dimensions of the board.");
+		}
+	
+		// CHECKING FOR # OF 1'S AND 2's //
+		if (numOnes != 1 || numTwos != 1) {
+			throw new InvalidFileFormatException("This file contains excess 1's and 2's, file should contain one 1 and one 2.");
+		}
+
+		// CHECKING FOR VALID # OF ROWS //
+		int rowCount = 0;
 		fileScan.close();
+		Scanner secScanner = new Scanner(new File(filename));
+		secScanner.nextLine();
+		while (secScanner.hasNextLine()) {
+            // Make sure empty lines are not counted.
+                if (!secScanner.nextLine().isEmpty()) {
+                    rowCount++;
+                }
+            }
+        // If rows match make file valid.
+        if (rowCount != numRows) {
+            throw new InvalidFileFormatException("Rows do not match.");
+        }
+
+		// CHECKING FOR VALID # OF COLS //
+		Scanner thirdScan = new Scanner(new File(filename));
+		thirdScan.nextLine();
+		while (thirdScan.hasNextLine()) {
+			String nextLine = thirdScan.nextLine();
+			String[] numChar = nextLine.split("\\s+"); // Split by whitespace
+			if (numChar.length != numCols) {
+				throw new InvalidFileFormatException("Column do not match.");
+			}
+		}
+		thirdScan.close();;
+		secScanner.close();
+
+		ROWS = numRows;
+		COLS = numCols;
+
+
 	}
 	
 	/** Copy constructor - duplicates original board
