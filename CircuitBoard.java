@@ -55,53 +55,45 @@ public class CircuitBoard {
 		// throw FileNotFoundException if Scanner cannot read the file
 		// throw InvalidFileFormatException if any issues are encountered while parsing the file
 		// Header line check
-		Scanner formatScanner = new Scanner(new File(filename));
-		String headerString = formatScanner.nextLine();
-		String[] headerInputs = headerString.split("\\s+"); // Split by whitespace
-		if (headerInputs.length != 2) {
-			formatScanner.close();
-			throw new InvalidFileFormatException(headerFormatExceptionText);
-		}
-		
 		try {
+			Scanner formatScanner = new Scanner(new File(filename));
+			String headerString = formatScanner.nextLine();
+			String[] headerInputs = headerString.split("\\s+"); // Split by whitespace
+			if (headerInputs.length != 2) {
+				formatScanner.close();
+				throw new InvalidFileFormatException(headerFormatExceptionText);
+			}
 			numRows = Integer.parseInt(headerInputs[0]);
 			numCols = Integer.parseInt(headerInputs[1]);
-			
-		} catch (NumberFormatException e) {
-			formatScanner.close();
-			throw new InvalidFileFormatException(headerFormatExceptionText);
-		} 
-		
-		// Check amount of rows
-		while (formatScanner.hasNextLine()) {
-			// Make sure empty lines are not counted.
-			String nextLine = formatScanner.nextLine();
-			if (!nextLine.isEmpty()) {
-				String[] numChar = nextLine.split("\\s+");
-				// Check amount of columns
-				if (numChar.length != numCols) {
-					formatScanner.close();;
-					throw new InvalidFileFormatException("Improper # of columns");
+			while (formatScanner.hasNextLine()) {
+				// Make sure empty lines are not counted.
+				String nextLine = formatScanner.nextLine();
+				if (!nextLine.isEmpty()) {
+					String[] numChar = nextLine.split("\\s+");
+					// Check amount of columns
+					if (numChar.length != numCols) {
+						formatScanner.close();;
+						throw new InvalidFileFormatException("Improper # of columns");
+					}
+					rowCount++;
 				}
-				rowCount++;
 			}
-		}
-		formatScanner.close();
-		
-		if (rowCount != numRows) {
-			throw new InvalidFileFormatException("Improper # of rows");
-		}
-		
-		ROWS = numRows;
-		COLS = numCols;
-		
-		// Create new board of proper dimension (rows and columns)
-		board = new char[numRows][numCols];
-
-		Scanner fileScanner = new Scanner(new File(filename));
-		// Skips header line
-		fileScanner.nextLine();
-		try {
+			formatScanner.close();
+			
+			// Check amount of rows
+			if (rowCount != numRows) {
+				throw new InvalidFileFormatException("Improper # of rows");
+			}
+			
+			ROWS = numRows;
+			COLS = numCols;
+			
+			// Create new board of proper dimension (rows and columns)
+			board = new char[numRows][numCols];
+	
+			Scanner fileScanner = new Scanner(new File(filename));
+			// Skips header line
+			fileScanner.nextLine();
 			for (int i = 0; i < numRows; i++) {
 				for (int j = 0; j < numCols; j++) {
 					char newPoint = fileScanner.next().charAt(0);
@@ -122,16 +114,19 @@ public class CircuitBoard {
 					board[i][j] = newPoint;
 				}
 			}
-
-			} catch (NoSuchElementException e) {
+			fileScanner.close();
+			// Check for ONLY one start and finish
+			if (numStarts != 1 || numFinishes != 1) {
+				throw new InvalidFileFormatException(bodyFormatExceptionText);
+			}
+		} catch (FileNotFoundException e) {
+			throw new FileNotFoundException("Cannot find file");
+		} catch (NumberFormatException e) {
+			throw new InvalidFileFormatException(headerFormatExceptionText);
+		} catch (NoSuchElementException e) {
 			throw new InvalidFileFormatException("File should contain no empty spaces in matrix");
 		}
-		fileScanner.close();
 	
-		// Check for ONLY one start and finish
-		if (numStarts != 1 || numFinishes != 1) {
-			throw new InvalidFileFormatException(bodyFormatExceptionText);
-		}
 	}
 	
 	/** Copy constructor - duplicates original board
