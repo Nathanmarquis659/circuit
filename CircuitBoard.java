@@ -109,15 +109,15 @@ public class CircuitBoard {
 				for (int j = 0; j < numCols; j++) {
 					char newPoint = fileScan.next().charAt(0);
 					// Create start point, increment to see if there are too many
-					if (newPoint == '1') {
+					if (newPoint == START) {
 						startingPoint = new Point(i, j);
 						numStarts++;
 					// Create end point, increment to see if there are too many
-					} else if (newPoint == '2') {
+					} else if (newPoint == END) {
 						endingPoint = new Point(i, j);
 						numFinishes++;
 					// Ensures that the character is either O or X
-					} else if (newPoint == 'O' || newPoint == 'X') {
+					} else if (newPoint == OPEN || newPoint == CLOSED) {
 					} else {
 						throw new InvalidFileFormatException(bodyFormatExceptionText);
 					}
