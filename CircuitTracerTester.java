@@ -1073,9 +1073,9 @@ public class CircuitTracerTester {
 
 	private static final String VALID_0_FILENAME = "valid0.dat";
 	private static final char[][] VALID_0 = { { '1', '2' } };
-	private static final char[][][] VALID_0_SOLUTIONS = {
+	//private static final char[][][] VALID_0_SOLUTIONS = {
 			// none
-	};
+	//};
 
 	private static final String VALID_1_FILENAME = "valid1.dat";
 	private static final char[][] VALID_1 = { { 'X', 'O', '1', 'O', 'O', 'O' }, { 'X', 'X', 'X', 'O', 'O', 'O' },

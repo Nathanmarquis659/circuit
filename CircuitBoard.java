@@ -21,7 +21,7 @@ public class CircuitBoard {
 	private final int ROWS; //initialized in constructor
 	private final int COLS; //initialized in constructor
 	private final char OPEN = 'O';	//capital 'o', an open position
-	private final char CLOSED = 'X';//a blocked position
+	// private final char CLOSED = 'X';//a blocked position
 	private final char TRACE = 'T';	//part of the trace connecting 1 to 2
 	private final char START = '1';	//the starting component
 	private final char END = '2';	//the ending component
