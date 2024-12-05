@@ -83,19 +83,19 @@ public class CircuitTracer {
 			return;
 		}
 
-		// Adding a new traceState object for each position adjacent to the initial position.
+		// new TraceState for each direction. Order: Right - Down - Up - Left
 
 		if (currentBoard.isOpen(currentBoard.getStartingPoint().x + 1, currentBoard.getStartingPoint().y)) {
 			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x + 1, currentBoard.getStartingPoint().y));
 		}
-		if (currentBoard.isOpen(currentBoard.getStartingPoint().x - 1, currentBoard.getStartingPoint().y)) {
-			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x - 1, currentBoard.getStartingPoint().y));
+		if (currentBoard.isOpen(currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y - 1)) {
+			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y - 1));
 		}
 		if (currentBoard.isOpen(currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y + 1)) {
 			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y + 1));
 		}
-		if (currentBoard.isOpen(currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y - 1)) {
-			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y - 1));
+		if (currentBoard.isOpen(currentBoard.getStartingPoint().x - 1, currentBoard.getStartingPoint().y)) {
+			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x - 1, currentBoard.getStartingPoint().y));
 		}
 		
 		TraceState initial;
