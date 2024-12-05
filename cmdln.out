@@ -1,8 +1,6 @@
-Usage: java CircuitTracer [-s | -q] [-c | -g] <input_file>
-Options:
-  -s  Use a stack for storage
-  -q  Use a queue for storage
-  -c  Run program in console mode
-  -g  Run program in GUI mode (extra-credit--see below for details)
-  input_file  Name of the input file
+Usage: $ java CircuitTracer <-s | -q> <-c | -g> filename
+       where -s selects stack as the ADT
+             -q selects queue as the ADT
+             -c displays program output in console
+             -g displays program output in GUI
 
