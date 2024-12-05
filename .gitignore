@@ -3,4 +3,8 @@
 
 ./boards/*.dat
 
+*.dat
+
 ./boards/*.out
+
+*.out
