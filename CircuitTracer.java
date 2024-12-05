@@ -1,4 +1,3 @@
-import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -8,7 +7,7 @@ import java.util.ArrayList;
  * search state storage structure and displaying output to the console or to
  * a GUI according to options specified via command-line arguments.
  * 
- * @author mvail
+ * @author mvail and Nathan Marquis
  */
 public class CircuitTracer {
 
@@ -25,13 +24,11 @@ public class CircuitTracer {
 
 	/** Print instructions for running CircuitTracer from the command line. */
 	private void printUsage() {
-		System.out.println("Usage: java CircuitTracer [-s | -q] [-c | -g] <input_file>");
-		System.out.println("Options:");
-		System.out.println("  -s  Use a stack for storage");
-		System.out.println("  -q  Use a queue for storage");
-		System.out.println("  -c  Run program in console mode");
-		System.out.println("  -g  Run program in GUI mode (extra-credit--see below for details)");
-		System.out.println("  input_file  Name of the input file");
+		System.out.println("Usage: $ java CircuitTracer <-s | -q> <-c | -g> filename");
+		System.out.println("       where -s selects stack as the ADT");
+		System.out.println("             -q selects queue as the ADT");
+		System.out.println("             -c displays program output in console");
+		System.out.println("             -g displays program output in GUI");
 		System.out.println();
 	}
 	
@@ -42,11 +39,6 @@ public class CircuitTracer {
 	 * @param args command line arguments passed through from main()
 	 */
 	public CircuitTracer(String[] args) {
-		//TODO: parse and validate command line args - first validation provided
-		if (args.length != 3) {
-			printUsage();
-			return; //exit the constructor immediately
-		}
 		if (args.length != 3) {
 			printUsage();
 			return; //exit the constructor immediately
@@ -54,7 +46,7 @@ public class CircuitTracer {
 
 		Storage<TraceState> stateStore = null;
 		ArrayList<TraceState> bestPaths = new ArrayList<>();
-		CircuitBoard theBoard = null;
+		CircuitBoard currentBoard = null;
 
 		// Check user console input
 		switch(args[0]) { //checking first input
@@ -82,7 +74,7 @@ public class CircuitTracer {
 
 		// Exception Handling for constructor
 		try {
-			theBoard = new CircuitBoard(args[2]);
+			currentBoard = new CircuitBoard(args[2]);
 		} catch (InvalidFileFormatException e) {
 			System.out.println(e.toString());
 			return;
@@ -93,17 +85,17 @@ public class CircuitTracer {
 
 		// Adding a new traceState object for each position adjacent to the initial position.
 
-		if (theBoard.isOpen(theBoard.getStartingPoint().x + 1, theBoard.getStartingPoint().y)) {
-			stateStore.store(new TraceState(theBoard, theBoard.getStartingPoint().x + 1, theBoard.getStartingPoint().y));
+		if (currentBoard.isOpen(currentBoard.getStartingPoint().x + 1, currentBoard.getStartingPoint().y)) {
+			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x + 1, currentBoard.getStartingPoint().y));
 		}
-		if (theBoard.isOpen(theBoard.getStartingPoint().x - 1, theBoard.getStartingPoint().y)) {
-			stateStore.store(new TraceState(theBoard, theBoard.getStartingPoint().x - 1, theBoard.getStartingPoint().y));
+		if (currentBoard.isOpen(currentBoard.getStartingPoint().x - 1, currentBoard.getStartingPoint().y)) {
+			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x - 1, currentBoard.getStartingPoint().y));
 		}
-		if (theBoard.isOpen(theBoard.getStartingPoint().x, theBoard.getStartingPoint().y + 1)) {
-			stateStore.store(new TraceState(theBoard, theBoard.getStartingPoint().x, theBoard.getStartingPoint().y + 1));
+		if (currentBoard.isOpen(currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y + 1)) {
+			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y + 1));
 		}
-		if (theBoard.isOpen(theBoard.getStartingPoint().x, theBoard.getStartingPoint().y - 1)) {
-			stateStore.store(new TraceState(theBoard, theBoard.getStartingPoint().x, theBoard.getStartingPoint().y - 1));
+		if (currentBoard.isOpen(currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y - 1)) {
+			stateStore.store(new TraceState(currentBoard, currentBoard.getStartingPoint().x, currentBoard.getStartingPoint().y - 1));
 		}
 		
 		TraceState initial;
@@ -138,5 +130,4 @@ public class CircuitTracer {
 		}
 	}
 	
-} // class CircuitTracer
-	
+}

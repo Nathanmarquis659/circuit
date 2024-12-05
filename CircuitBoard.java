@@ -52,22 +52,22 @@ public class CircuitBoard {
 		String headerFormatExceptionText = "On the first line should be 2 integers, # rows and # columns";
 		String bodyFormatExceptionText = "The matrix should only contain [O,X] and one each of [1,2]";
 		
-		// throw FileNotFoundException if Scanner cannot read the file
-		// throw InvalidFileFormatException if any issues are encountered while parsing the file
-		// Header line check
 		try {
+			// Header line check
 			Scanner formatScanner = new Scanner(new File(filename));
 			String headerString = formatScanner.nextLine();
-			String[] headerInputs = headerString.split("\\s+"); // Split by whitespace
+			String[] headerInputs = headerString.split("\\s+");
+
 			if (headerInputs.length != 2) {
 				formatScanner.close();
 				throw new InvalidFileFormatException(headerFormatExceptionText);
 			}
+
 			numRows = Integer.parseInt(headerInputs[0]);
 			numCols = Integer.parseInt(headerInputs[1]);
 			while (formatScanner.hasNextLine()) {
-				// Make sure empty lines are not counted.
 				String nextLine = formatScanner.nextLine();
+				// Only filled lines
 				if (!nextLine.isEmpty()) {
 					String[] numChar = nextLine.split("\\s+");
 					// Check amount of columns
@@ -220,5 +220,4 @@ public class CircuitBoard {
 		}
 		return str.toString();
 	}
-	
 }
