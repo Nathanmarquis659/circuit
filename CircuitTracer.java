@@ -112,10 +112,10 @@ public class CircuitTracer {
 				if (bestPaths.isEmpty() || currentTraceState.pathLength() == bestPaths.get(0).pathLength()) {
 					bestPaths.add(currentTraceState);
 				} else if (currentTraceState.pathLength() < bestPaths.get(0).pathLength()) {
-					bestPaths = new ArrayList<>();
+					bestPaths.clear();
 					bestPaths.add(currentTraceState);
 				}
-				// Continue searching until path found
+			// Continue searching until path found
 			} else {
 				if (currentTraceState.isOpen(currentRow + 1, currentCol)) {
 					stateStore.store(new TraceState(currentTraceState, currentRow + 1, currentCol));
@@ -136,5 +136,4 @@ public class CircuitTracer {
 			System.out.println(path.toString());
 		}
 	}
-
 }
