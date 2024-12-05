@@ -1,6 +1,6 @@
 # Compiled class files
 *.class
 
-*.dat
+./boards/*.dat
 
-*.out
+./boards/*.out
