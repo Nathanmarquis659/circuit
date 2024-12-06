@@ -1,5 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.awt.EventQueue;
+import javax.swing.JPanel;
 
 /**
  * Search for shortest paths between start and end points on a circuit board
@@ -47,6 +49,7 @@ public class CircuitTracer {
 
 		Storage<TraceState> stateStore = null;
 		ArrayList<TraceState> bestPaths = new ArrayList<TraceState>();
+		boolean choseGUI = false;
 
 		// Determine whether stack or queue is used
 		switch (args[0]) {
@@ -66,6 +69,7 @@ public class CircuitTracer {
 			case "-c":
 				break;
 			case "-g":
+				choseGUI = false;
 				System.out.println("Sorry, GUI currently not available.");
 				return;
 			default:
@@ -115,7 +119,7 @@ public class CircuitTracer {
 					bestPaths.clear();
 					bestPaths.add(currentTraceState);
 				}
-			// Continue searching until path found
+				// Continue searching until path found
 			} else {
 				if (currentTraceState.isOpen(currentRow + 1, currentCol)) {
 					stateStore.store(new TraceState(currentTraceState, currentRow + 1, currentCol));
@@ -132,8 +136,12 @@ public class CircuitTracer {
 			}
 		}
 
-		for (TraceState path : bestPaths) {
-			System.out.println(path.toString());
+		if (choseGUI == true) {
+			//EventQueue.invokeLater(new BoardPanel(bestPaths));
+		} else {
+			for (TraceState path : bestPaths) {
+				System.out.println(path.toString());
+			}
 		}
 	}
 }
