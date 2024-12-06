@@ -1,6 +1,0 @@
-Usage: $ java CircuitTracer <-s | -q> <-c | -g> filename
-       where -s selects stack as the ADT
-             -q selects queue as the ADT
-             -c displays program output in console
-             -g displays program output in GUI
-
